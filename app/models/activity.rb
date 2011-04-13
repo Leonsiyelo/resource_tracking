@@ -174,6 +174,10 @@ class Activity < ActiveRecord::Base
     return saved, errors
   end
 
+  def possible_duplicate?
+    self.class.only_simple.canonical_with_scope.find(:first, :conditions => {:id => id}).nil?
+  end
+
   def budget_district_coding_adjusted
     district_coding_adjusted(CodingBudgetDistrict, coding_budget_district, budget)
   end
