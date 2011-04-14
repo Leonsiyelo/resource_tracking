@@ -120,8 +120,8 @@ class Reports::JawpReport
         cost_category_codes  = cost_category_ca_coding[1]
 
         funding_sources.each do |funding_source|
-          district_codings.each do |district_coding|
-            coding_with_parent_codes.each do |ca_codes|
+          coding_with_parent_codes.each do |ca_codes|
+            district_codings.each do |district_coding|
               ca                    = ca_codes[0]
               codes                 = ca_codes[1]
               last_code             = codes.last
@@ -132,8 +132,7 @@ class Reports::JawpReport
               ratio = get_ratio(amount_total, ca.amount_not_in_children) *
                 get_ratio(amount_total, district_coding.amount_not_in_children) *
                 get_ratio(amount_total, cost_category_coding.amount_not_in_children) * # why was this commented out before ?
-
-              get_ratio(funding_sources_total, funding_source_amount)
+                get_ratio(funding_sources_total, funding_source_amount)
 
               puts " get_ratio(amount_total, ca.amount_not_in_children) : #{get_ratio(amount_total, ca.amount_not_in_children)})"
               puts "  get_ratio(amount_total, district_coding.amount_not_in_children) : #{get_ratio(amount_total, district_coding.amount_not_in_children)}"
@@ -148,14 +147,6 @@ class Reports::JawpReport
               #  activity.sub_activities.each{|sa| add_row_with_ratio_ufs_fa_implementer_poss_dup(..., sa.implementer, sa.possible_duplicate? )}
               # end
               amount = (amount_total || 0) * ratio
-
-              #puts "  get_ratio(amount_total, ca.cached_amount) *" + get_ratio(amount_total, ca.cached_amount).to_s
-
-              #puts "  get_ratio(amount_total, district_coding.cached_amount) *" + get_ratio(amount_total, district_coding.cached_amount).to_s
-
-              #puts "  get_ratio(amount_total, cost_category_coding.cached_amount) *" + get_ratio(amount_total, cost_category_coding.cached_amount).to_s
-
-              #puts "  get_ratio(funding_sources_total, funding_source_amount)" + get_ratio(funding_sources_total, funding_source_amount).to_s
 
               row << activity.possible_duplicate?
               row << activity.provider.try(:name) || "No Implementer Specified" # include sub activity implementers here
@@ -185,10 +176,6 @@ class Reports::JawpReport
           end
         end
       end
-    end
-
-    def add_row_with_ratio_ufs_fa_implementer_poss_dup(csv,activity,ratio, ufs, fa, implementer, poss_dup)
-      
     end
 
     def build_header
