@@ -91,4 +91,19 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+
+    # Render detailed diagnostics for unhandled exceptions rescued from
+    # a controller action.
+    def rescue_action_locally(exception)
+      class << RESCUES_TEMPLATE_PATH
+        def [](path)
+          if Rails.root.join("app/views", path).exist?
+            ActionView::Template::EagerPath.new_and_loaded(Rails.root.join("app/views").to_s)[path]
+          else
+            super
+          end
+        end
+      end
+      super
+    end
 end
