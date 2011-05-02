@@ -66,11 +66,6 @@ class DataResponse < ActiveRecord::Base
     data_request.try(:title) # some responses does not have data_requst (bug was on staging)
   end
 
-  # TODO: remove
-  def self.remove_security
-    with_exclusive_scope {find(:all)}
-  end
-
   # TODO: refactor
   def self.options_hash_for_empty
     h = {}
