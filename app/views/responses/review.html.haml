@@ -4,7 +4,9 @@
 - projects_spend_entered = @response.projects_spend_entered? ? "ready" : "not-ready"
 - projects_budget_entered = @response.projects_budget_entered? ? "ready" : "not-ready"
 - projects_have_activities = @response.projects_have_activities? ? "ready" : "not-ready"
-- projects_have_other_costs = @response.projects_have_other_costs?
+- projects_have_other_costs = @response.projects_have_other_costs? ? "ready" : "not-ready"
+
+- detailed_classification = @response.activities_coded? && @response.other_costs_coded? ? "ready" : "not-ready"
 - activities_coded = @response.activities_coded? ? "ready" : "not-ready"
 - final_review = @response.request.final_review?
 - projects_linked = @response.projects_linked?
@@ -13,6 +15,7 @@
 - else
   - projects_linked_class = projects_linked ? "ready" : "info"
 - other_costs_coded = @response.other_costs_coded? ? "ready" : "not-ready"
+- data_verification = @response.projects_and_funding_sources_have_correct_budgets? &&       @response.projects_and_funding_sources_have_correct_spends? && @response.projects_and_activities_have_correct_budgets? && @response.projects_and_activities_have_correct_spends? && projects_linked_class
 - projects_funding_sources_budgets_ok = @response.projects_and_funding_sources_have_correct_budgets?
 - projects_funding_sources_spends_ok = @response.projects_and_funding_sources_have_correct_spends?
 - projects_activities_budgets_ok = @response.projects_and_activities_have_correct_budgets?
@@ -39,17 +42,17 @@
 
 %ul.review
   %li
-    %h3{:class => your_projects ? "ready" : "not-ready"}
+    %h3{:class => (your_projects)}
       Your Projects
   %li.first
-    %h3{:class => (projects_entered ? "ready" : "not-ready")}
+    %h3{:class => (projects_entered)}
       Projects Entered
       - unless projects_entered
         %span.info
           = render 'projects/no_projects_yet'
   %li.second
     - if @response.data_request.spend?
-      %h3{:class => (projects_spend_entered ? "ready-sub" : "not-ready-sub")}
+      %h3{:class => (projects_spend_entered)}
         Project Expenditures
         - unless projects_spend_entered
           - if projects_entered
@@ -59,7 +62,7 @@
               = render 'projects/no_projects_yet'
   %li.second
     - if @response.data_request.budget?
-      %h3{:class => (projects_budget_entered ? "ready-sub" : "not-ready-sub")}
+      %h3{:class => (projects_budget_entered)}
         Project Budgets
         - unless projects_budget_entered
           - if projects_entered
@@ -75,7 +78,7 @@
             %li= link_to friendly_name(p), edit_response_project_path(@response, p)
 
   %li.first
-    %h3{:class => (projects_have_activities ? "ready" : "not-ready")}
+    %h3{:class => (projects_have_activities)}
       Activities Entered
       - unless projects_have_activities
         - unless projects_entered
@@ -88,7 +91,7 @@
             = link_to "Start by adding your activities here.", response_projects_path(@response)
             
   %li.first
-    %h3{:class => (projects_have_other_costs ? "ready" : "not-ready")}
+    %h3{:class => (projects_have_other_costs)}
       Other Costs Entered
       - unless projects_have_other_costs
         - unless projects_entered
@@ -101,12 +104,12 @@
             = link_to "Start adding your Other Costs now.", response_projects_path(@response)
             
   %li
-    %h3{:class => your_projects ? "ready" : "not-ready"}
+    %h3{:class => detailed_classification}
       Detailed Classifications
             
             
   %li.first
-    %h3{:class => (activities_coded ? "ready" : "not-ready")}
+    %h3{:class => (activities_coded)}
       Activities Classified
       - unless activities_coded
         - unless @response.uncoded_activities.empty?
@@ -122,7 +125,7 @@
   
             
   %li.first
-    %h3{:class => (other_costs_coded ? "ready" : "not-ready")}
+    %h3{:class => (other_costs_coded)}
       Other Costs Classified
       - unless other_costs_coded
         - unless @response.uncoded_other_costs.empty?
@@ -135,7 +138,7 @@
         = render 'uncoded_table', :activities => @response.uncoded_other_costs
         
   %li
-    %h3{:class => your_projects ? "ready" : "not-ready"}
+    %h3{:class => data_verification}
       Data Verification
         
   %li.first
@@ -148,7 +151,7 @@
           to each Funder project respectively.
 
   %li.first
-    %h3{:class => (projects_funding_sources_budgets_ok ? "ready" : "not-ready")}
+    %h3{:class => (projects_funding_sources_budgets_ok)}
       Correct Budget amounts for Projects & Funding Sources
       - unless projects_funding_sources_budgets_ok
         %span.info "The Project budget amounts do not match their Funding Source budget amount(s). Please update your projects and/or funding sources."
@@ -175,7 +178,7 @@
                   
 
   %li.first
-    %h3{:class => (projects_activities_budgets_ok ? "ready" : "not-ready")}
+    %h3{:class => (projects_activities_budgets_ok)}
       Correct Budget amounts for Projects, Activities & Other Costs
       - unless projects_activities_budgets_ok
         %span.info
@@ -211,7 +214,7 @@
 
 
   %li.first
-    %h3{:class => (projects_funding_sources_spends_ok ? "ready" : "not-ready")}
+    %h3{:class => (projects_funding_sources_spends_ok)}
       Correct Expenditure amounts for Projects & Funding Sources
       - unless projects_funding_sources_spends_ok
         %span.info The Project spend amounts do not match their Funding Source spend amount(s). Please update your projects and/or funding sources.
@@ -240,7 +243,7 @@
 
 
   %li.first
-    %h3{:class => (projects_activities_spends_ok ? "ready" : "not-ready")}
+    %h3{:class => (projects_activities_spends_ok)}
       Correct Expenditure amounts for Projects, Activities & Other Costs
       - unless projects_activities_spends_ok
         %span.info
