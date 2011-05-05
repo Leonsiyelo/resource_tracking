@@ -15,8 +15,8 @@
 - else
   - projects_linked_class = projects_linked ? "ready" : "info"
 - other_costs_coded = @response.other_costs_coded? ? "ready" : "not-ready"
-- data_verification = @response.projects_and_funding_sources_have_correct_budgets? &&       @response.projects_and_funding_sources_have_correct_spends? && @response.projects_and_activities_have_correct_budgets? && @response.projects_and_activities_have_correct_spends? && projects_linked_class
-- projects_funding_sources_budgets_ok = @response.projects_and_funding_sources_have_correct_budgets?
+- data_verification = @response.projects_and_funding_sources_have_correct_budgets? && @response.projects_and_funding_sources_have_correct_spends? && @response.projects_and_activities_have_correct_budgets? && @response.projects_and_activities_have_correct_spends? && projects_linked_class ? "ready" : "not-ready"
+- projects_funding_sources_budgets_ok = @response.projects_and_funding_sources_have_correct_budgets? 
 - projects_funding_sources_spends_ok = @response.projects_and_funding_sources_have_correct_spends?
 - projects_activities_budgets_ok = @response.projects_and_activities_have_correct_budgets?
 - projects_activities_spends_ok = @response.projects_and_activities_have_correct_spends?
@@ -143,10 +143,9 @@
             = render 'uncoded_table', :activities => @response.uncoded_other_costs
         
   %li
-    %h2{:class => data_verification}
+    %h3{:class => (data_verification ? "ready" : "not-ready")}
       Data Verification
-
-    %ul.dashboard_section.review
+    %ul.review
       %li
         %h3{:class => projects_linked_class}
           Projects Linked to the Funder Projects
@@ -157,7 +156,7 @@
               to each Funder project respectively.
 
       %li
-        %h4{:class => (projects_funding_sources_budgets_ok)}
+        %h3{:class => (projects_funding_sources_budgets_ok ? "ready" : "not-ready")}
           Correct Budget amounts for Projects & Funding Sources
           - unless projects_funding_sources_budgets_ok
             %span.info "The Project budget amounts do not match their Funding Source budget amount(s). Please update your projects and/or funding sources."
@@ -184,7 +183,7 @@
                   
 
       %li
-        %h4{:class => (projects_activities_budgets_ok)}
+        %h3{:class => (projects_activities_budgets_ok ? "ready" : "not-ready")}
           Correct Budget amounts for Projects, Activities & Other Costs
           - unless projects_activities_budgets_ok
             %span.info
@@ -220,7 +219,7 @@
 
 
       %li
-        %h4{:class => (projects_funding_sources_spends_ok)}
+        %h3{:class => (projects_funding_sources_spends_ok ? "ready" : "not-ready")}
           Correct Expenditure amounts for Projects & Funding Sources
           - unless projects_funding_sources_spends_ok
             %span.info The Project spend amounts do not match their Funding Source spend amount(s). Please update your projects and/or funding sources.
@@ -246,10 +245,8 @@
                       %td= link_to "Edit", edit_response_project_path(@response, project)
 
 
-
-
       %li
-        %h4{:class =>  "push #{projects_activities_spends_ok}"}
+        %h3{:class =>  projects_activities_spends_ok ? "ready" : "not-ready"}
           Correct Expenditure amounts for Projects, Activities & Other Costs
           - unless projects_activities_spends_ok
             %span.info
