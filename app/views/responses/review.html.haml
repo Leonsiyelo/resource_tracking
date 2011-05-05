@@ -3,8 +3,8 @@
 - projects_spend_entered = @response.projects_spend_entered? ? "ready" : "not-ready"
 - projects_budget_entered = @response.projects_budget_entered? ? "ready" : "not-ready"
 - projects_have_activities = @response.projects_have_activities? ? "ready" : "not-ready"
-- activities_coded = @response.activities_coded? ? "ready" : "not-ready"
 - projects_have_other_costs = @response.projects_have_other_costs?
+- activities_coded = @response.activities_coded? ? "ready" : "not-ready"
 - final_review = @response.request.final_review?
 - projects_linked = @response.projects_linked?
 - if final_review
@@ -45,24 +45,26 @@
           = render 'projects/no_projects_yet'
   %li
     - if @response.data_request.spend?
-      %h3{:class => (projects_spend_entered ? "ready" : "not-ready")}
-        Projects: Expenditures Entered
-        - unless projects_spend_entered
-          - if projects_entered
-            %span.info Enter the Expenditure (Spend) for all of your projects.
-          - else
-            %span.info
-              = render 'projects/no_projects_yet'
+      %div.sub_review_level_one
+        %h3{:class => (projects_spend_entered ? "ready-sub" : "not-ready-sub")}
+          Projects: Expenditures Entered
+          - unless projects_spend_entered
+            - if projects_entered
+              %span.info Enter the Expenditure (Spend) for all of your projects.
+            - else
+              %span.info
+                = render 'projects/no_projects_yet'
   %li
     - if @response.data_request.budget?
-      %h3{:class => (projects_budget_entered ? "ready" : "not-ready")}
-        Projects: Budgets Entered
-        - unless projects_budget_entered
-          - if projects_entered
-            %span.info Enter the Budget for all of your projects.
-          - else
-            %span.info
-              = render 'projects/no_projects_yet'
+      %div.sub_review_level_one
+        %h3{:class => (projects_budget_entered ? "ready-sub" : "not-ready-sub")}
+          Projects: Budgets Entered
+          - unless projects_budget_entered
+            - if projects_entered
+              %span.info Enter the Budget for all of your projects.
+            - else
+              %span.info
+                = render 'projects/no_projects_yet'
               
     - if @response.data_request.spend?
       - if @response.projects_without_spend
