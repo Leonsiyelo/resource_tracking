@@ -143,10 +143,10 @@
             = render 'uncoded_table', :activities => @response.uncoded_other_costs
         
   %li
-    %h3{:class => data_verification}
+    %h2{:class => data_verification}
       Data Verification
 
-    %ul.review
+    %ul.dashboard_section.review
       %li
         %h3{:class => projects_linked_class}
           Projects Linked to the Funder Projects
@@ -157,7 +157,7 @@
               to each Funder project respectively.
 
       %li
-        %h3{:class => (projects_funding_sources_budgets_ok)}
+        %h4{:class => (projects_funding_sources_budgets_ok)}
           Correct Budget amounts for Projects & Funding Sources
           - unless projects_funding_sources_budgets_ok
             %span.info "The Project budget amounts do not match their Funding Source budget amount(s). Please update your projects and/or funding sources."
@@ -184,7 +184,7 @@
                   
 
       %li
-        %h3{:class => (projects_activities_budgets_ok)}
+        %h4{:class => (projects_activities_budgets_ok)}
           Correct Budget amounts for Projects, Activities & Other Costs
           - unless projects_activities_budgets_ok
             %span.info
@@ -220,7 +220,7 @@
 
 
       %li
-        %h3{:class => (projects_funding_sources_spends_ok)}
+        %h4{:class => (projects_funding_sources_spends_ok)}
           Correct Expenditure amounts for Projects & Funding Sources
           - unless projects_funding_sources_spends_ok
             %span.info The Project spend amounts do not match their Funding Source spend amount(s). Please update your projects and/or funding sources.
@@ -249,7 +249,7 @@
 
 
       %li
-        %h3{:class => (projects_activities_spends_ok)}
+        %h4{:class =>  "push #{projects_activities_spends_ok}"}
           Correct Expenditure amounts for Projects, Activities & Other Costs
           - unless projects_activities_spends_ok
             %span.info
