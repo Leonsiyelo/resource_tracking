@@ -215,7 +215,8 @@
                           %tr{:class => "#{dom_id(project)}_budget"}
                             %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
                             %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
->>>>>>> expanding and collapsing working properly
+                            %td
+                            %td
 
 
       %li
@@ -274,10 +275,9 @@
                       - project.activities.each do |activity|
                         %tr{:class => "#{dom_id(project)}_spend"}
                           %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
-                          %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
+                          %td.activity= universal_currency_converter(activity.spend, activity.currency, @response.currency)
                           %td
                           %td
-
 
                         
 //%hr.divider
