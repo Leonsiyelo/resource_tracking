@@ -41,12 +41,14 @@
 = error_messages_for :response, :header_message => "", :message => ""
 
 %ul.review
-  %li
+  %li.alt
+    %h2 Projects
+  %li.dashboard_section
     %h3{:class => (your_projects)}
       Your Projects
 
     %ul.review
-      %li.first
+      %li
         %h3{:class => (projects_entered)}
           Projects Entered
           - unless projects_entered
@@ -106,13 +108,14 @@
               %span.info
                 Other Costs help you include any financial information at the central level and/or administrative expenses.
                 = link_to "Start adding your Other Costs now.", response_projects_path(@response)
-            
-  %li
+  
+  %li.alt
+    %h2 Classifications
+  %li.dashboard_section
     %h3{:class => detailed_classification}
       Detailed Classifications
             
     %ul.review
-
       %li
         %h3{:class => (activities_coded)}
           Activities Classified
@@ -141,8 +144,9 @@
         - unless other_costs_coded
           - unless @response.uncoded_other_costs.empty?
             = render 'uncoded_table', :activities => @response.uncoded_other_costs
-        
-  %li
+  %li.alt
+    %h2 Data entry
+  %li.dashboard_section
     %h3{:class => (data_verification ? "ready" : "not-ready")}
       Data Verification
     %ul.review
@@ -280,6 +284,6 @@
                       %td= (project.spend || 0) - (project.activities_spend_total + project.other_costs_spend_total)
                       %td= link_to "Edit", edit_response_project_path(@response, project)
 
-%hr.divider
+//%hr.divider
 %p
   = link_to "Submit", submit_response_path(current_user.current_data_response), :method => :put, :confirm => "Are you sure?", :class => "next big"
