@@ -194,32 +194,27 @@
               The Project budget should match the total budget for Activities plus Other Costs. Please update your projects/activities/other costs accordingly.
 
         - unless projects_activities_budgets_ok
-          .simple_table.push
+          .simple_table.push.review
             %table
               %thead
                 %tr
-                  %th Project
-                  %th Project Budget
-                  %th Activities Budget Total
-                  %th Other Costs Budget Total
-                  %th Diff
-                  %th.manage Manage
+                  %th= "Project/Activity"
+                  %th= "Activity/Other Costs Budget Total (#{@response.currency})"
+                  %th= "Project Budget Total (#{@response.currency})"
+                  %th= "Diff (#{@response.currency})"
               %tbody
                 - @response.projects.each do |project|
                   - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
                     %tr
-                      %td= project.name
-                      %td= project.budget
-                      %td
-                        = project.activities_budget_total
-                        - unless project.activities.roots.empty?
-                          = "(#{project.activities.roots.map{|a| "#{nice_name(a)} = #{a.budget} #{link_to('edit', edit_response_activity_path(@response, a))}"}.join('; ')})"
-                      %td
-                        = project.other_costs_budget_total
-                        - unless project.other_costs.empty?
-                          = "(#{project.other_costs.map{|oc| "#{nice_name(oc)} = #{oc.budget} #{link_to('edit', edit_response_other_cost_path(@response, oc))}"}.join('; ')})"
-                      %td= (project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total)
-                      %td= link_to "Edit", edit_response_project_path(@response, project)
+                      %td.first
+                        = link_to project.name, edit_response_project_path(@response, project)
+                      %td.first= universal_currency_converter((project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                      %td.first= universal_currency_converter(project.budget, project.currency, @response.currency)
+                      %td.first= universal_currency_converter((project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                      - project.activities.each do |activity|
+                        %tr
+                          %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
+                          %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
 
 
       %li
@@ -257,32 +252,30 @@
               The Project expenditure should match the total expenditures for Activities plus Other Costs. Please update your projects/activities/other costs accordingly.
 
         - unless projects_activities_spends_ok
-          .simple_table.push
+          .simple_table.push.review
             %table
               %thead
                 %tr
-                  %th Project
-                  %th Project Spend
-                  %th Activities Spend Total
-                  %th Other Costs Spend Total
-                  %th Diff
-                  %th.manage Manage
+                  %th= "Project/Activity"
+                  %th= "Activity/Other Costs Budget Total (#{@response.currency})"
+                  %th= "Project Budget Total (#{@response.currency})"
+                  %th= "Diff (#{@response.currency})"
               %tbody
                 - @response.projects.each do |project|
-                  - if project.spend != (project.activities_spend_total + project.other_costs_spend_total)
+                  - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
                     %tr
-                      %td= project.name
-                      %td= project.spend
-                      %td
-                        = project.activities_spend_total
-                        - unless project.activities.roots.empty?
-                          = "(#{project.activities.roots.map{|a| "#{nice_name(a)} = #{a.spend} #{link_to('edit', edit_response_activity_path(@response, a))}"}.join('; ')})"
-                      %td
-                        = project.other_costs_spend_total
-                        - unless project.other_costs.empty?
-                          = "(#{project.other_costs.map{|oc| "#{nice_name(oc)} = #{oc.spend} #{link_to('edit', edit_response_other_cost_path(@response, oc))}"}.join('; ')})"
-                      %td= (project.spend || 0) - (project.activities_spend_total + project.other_costs_spend_total)
-                      %td= link_to "Edit", edit_response_project_path(@response, project)
+                      %td.first
+                        = link_to project.name, edit_response_project_path(@response, project)
+                      %td.first= universal_currency_converter((project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                      %td.first= universal_currency_converter(project.budget, project.currency, @response.currency)
+                      %td.first= universal_currency_converter((project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                      - project.activities.each do |activity|
+                        %tr
+                          %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
+                          %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
+
+                        
+                        
 
 //%hr.divider
 %p
