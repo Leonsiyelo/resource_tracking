@@ -832,6 +832,16 @@ var data_responses_review = {
   }
 }
 
+var responses_review = {
+  run: function () {
+    $(".collapse").click(function(e){
+      e.preventDefault();
+      var row_id = $(this).attr('id');
+      $("." + row_id).slideToggle("fast");
+    });
+  }
+}
+
 function drawPieChart(id, data_rows, width, height) {
   if (typeof(data_rows) === "undefined") {
     return;

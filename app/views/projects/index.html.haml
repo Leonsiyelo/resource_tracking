@@ -11,9 +11,9 @@
 %ul.response-notice
   - @projects.each do |project|
     - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
-      %li= "The Projects (#{project.name}) Budget should match the total expenditures for Activities plus Other Costs. Please update your activities/other costs for this project accordingly accordingly."
+      %li= "The Projects' (#{project.name}) Budget should match the total budget for Activities plus Other Costs. Please update your activities/other costs for this project accordingly accordingly."
     - if project.spend != (project.activities_spend_total + project.other_costs_spend_total)
-      %li= "The Projects (#{project.name}) Expenditure (Spend) should match the total expenditures for Activities plus Other Costs. Please update your activities/other costs for this project accordingly accordingly."
+      %li= "The Projects' (#{project.name}) Expenditure (Spend) should match the total expenditures for Activities plus Other Costs. Please update your activities/other costs for this project accordingly accordingly."
     - if !project.linked?
       %li= "The Project (#{project.name}) is not currently linked."
 
