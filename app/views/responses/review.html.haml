@@ -201,21 +201,21 @@
                   %th= "Activity/Other Costs Budget Total (#{@response.currency})"
                   %th= "Project Budget Total (#{@response.currency})"
                   %th= "Diff (#{@response.currency})"
-              %tbody
-                - @response.projects.each do |project|
-                  - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
-                    %tr
-                      %td.first
-                        = link_to project.name, edit_response_project_path(@response, project)
-                      %td.first= universal_currency_converter((project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
-                      %td.first= universal_currency_converter(project.budget, project.currency, @response.currency)
-                      %td.first= universal_currency_converter((project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
-                      - project.activities.each do |activity|
-                        %tr
-                          %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
-                          %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
-                          %td
-                          %td
+                %tbody
+                  - @response.projects.each do |project|
+                    - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
+                      %tr{:class => "#{dom_id(project)}"}
+                        %td.first
+                          = link_to image_tag('icon_expand.png', :class => "#{dom_id(project)}_budget_image"), '#', :id => "#{dom_id(project)}_budget", :class => "collapse"
+                          = link_to project.name, edit_response_project_path(@response, project)
+                        %td.first= universal_currency_converter((project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                        %td.first= universal_currency_converter(project.budget, project.currency, @response.currency)
+                        %td.first= universal_currency_converter((project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                        - project.activities.each do |activity|
+                          %tr{:class => "#{dom_id(project)}_budget"}
+                            %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
+                            %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
+>>>>>>> expanding and collapsing working properly
 
 
       %li
@@ -258,25 +258,26 @@
               %thead
                 %tr
                   %th= "Project/Activity"
-                  %th= "Activity/Other Costs Budget Total (#{@response.currency})"
-                  %th= "Project Budget Total (#{@response.currency})"
+                  %th= "Activity/Other Costs Expenditure (Spend) Total (#{@response.currency})"
+                  %th= "Project Expenditure (Spend) Total (#{@response.currency})"
                   %th= "Diff (#{@response.currency})"
               %tbody
                 - @response.projects.each do |project|
-                  - if project.budget != (project.activities_budget_total + project.other_costs_budget_total)
+                  - if project.spend != (project.activities_spend_total + project.other_costs_spend_total)
                     %tr
                       %td.first
-                        = link_to image_tag('icon_collapse.png'), '#', :id => "#{dom_id(project)}_budget", :class => "collapse"
+                        = link_to image_tag('icon_expand.png', :class => "#{dom_id(project)}_spend_image"), '#', :id => "#{dom_id(project)}_spend", :class => "collapse"
                         = link_to project.name, edit_response_project_path(@response, project)
-                      %td.first= universal_currency_converter((project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
-                      %td.first= universal_currency_converter(project.budget, project.currency, @response.currency)
-                      %td.first= universal_currency_converter((project.budget || 0) - (project.activities_budget_total + project.other_costs_budget_total), project.currency, @response.currency)
+                      %td.first= universal_currency_converter((project.activities_spend_total + project.other_costs_spend_total), project.currency, @response.currency)
+                      %td.first= universal_currency_converter(project.spend, project.currency, @response.currency)
+                      %td.first= universal_currency_converter((project.spend || 0) - (project.activities_spend_total + project.other_costs_spend_total), project.currency, @response.currency)
                       - project.activities.each do |activity|
-                        %tr{:class => "#{dom_id(project)}_budget"}
+                        %tr{:class => "#{dom_id(project)}_spend"}
                           %td.activity= link_to nice_name(activity), edit_response_activity_path(@response, activity) 
                           %td.activity= universal_currency_converter(activity.budget, activity.currency, @response.currency)
                           %td
                           %td
+
 
                         
 //%hr.divider

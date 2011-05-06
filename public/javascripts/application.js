@@ -838,6 +838,16 @@ var responses_review = {
       e.preventDefault();
       var row_id = $(this).attr('id');
       $("." + row_id).slideToggle("fast");
+      var row = row_id.split("_", 3);
+      var img = $(this).attr('img');
+      var image = row_id + "_image";
+      var source = $('.'+image).attr('src');
+      var split = source.split("?", 1);
+      if(split == "/images/icon_expand.png") {
+        $('.' + image).attr('src', "/images/icon_collapse.png");
+      }else{
+        $('.' + image).attr('src', "/images/icon_expand.png");
+      }
     });
   }
 }
