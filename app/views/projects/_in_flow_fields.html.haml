@@ -8,7 +8,7 @@
     - if @response.data_request.spend?
       = f.input :spend, :label => "Spent", :hint => "The total amount that you have spent in the past fiscal year.", :required => false, :input_html => {:class => 'ff_spend'}
       %li.amounts.spend
-        %label Quarterly spend
+        %label Quarterly spent
         %ul
           = f.input :spend_q4_prev, :label => "Q4 08-09", :required => false, :input_html => {:class => 'ff_spend_q4_prev'}
           = f.input :spend_q1     , :label => "Q1 09-10", :required => false, :input_html => {:class => 'ff_spend_q1'}

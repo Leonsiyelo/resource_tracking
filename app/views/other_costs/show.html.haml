@@ -27,22 +27,22 @@
   %ul.dashboard_section
     %li
       %ul.row
-        %li Spend
+        %li Spent
         %li= c(@other_cost.spend, @other_cost.currency)
       %ul.row
-        %li Spend Q4 08-09
+        %li Spent Q4 08-09
         %li= c(@other_cost.spend_q4_prev, @other_cost.currency)
       %ul.row
-        %li Spend Q1 09-10
+        %li Spent Q1 09-10
         %li= c(@other_cost.spend_q1, @other_cost.currency)
       %ul.row
-        %li Spend Q2 09-10
+        %li Spent Q2 09-10
         %li= c(@other_cost.spend_q2, @other_cost.currency)
       %ul.row
-        %li Spend Q3 09-10
+        %li Spent Q3 09-10
         %li= c(@other_cost.spend_q3, @other_cost.currency)
       %ul.row
-        %li Spend Q4 09-10
+        %li Spent Q4 09-10
         %li= c(@other_cost.spend_q4, @other_cost.currency)
 
   %h3.form_heading Budget (planned expenditure)
@@ -65,13 +65,13 @@
         %li Budget by Inputs
         %li= b @other_cost.coding_budget_cc_classified?
       %ul.row
-        %li Spend by Purposes
+        %li Spent by Purposes
         %li= b @other_cost.coding_spend_classified?
       %ul.row
-        %li Spend by Locations
+        %li Spent by Locations
         %li= b @other_cost.coding_spend_district_classified?
       %ul.row
-        %li Spend by Inputs
+        %li Spent by Inputs
         %li= b @other_cost.coding_spend_cc_classified?
 
 = render :partial => 'shared/comments', :comments => @comments

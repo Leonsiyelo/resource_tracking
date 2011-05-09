@@ -61,7 +61,7 @@
                 Project Expenditures
                 - unless projects_spend_entered
                   - if projects_entered
-                    %span.info Enter the Expenditure (Spend) for all of your projects.
+                    %span.info Enter the Expenditure (Spent) for all of your projects.
                   - else
                     %span.info
                       = render 'projects/no_projects_yet'
@@ -257,8 +257,8 @@
               %thead
                 %tr
                   %th= "Project/Activity"
-                  %th= "Activity/Other Costs Expenditure (Spend) Total (#{@response.currency})"
-                  %th= "Project Expenditure (Spend) Total (#{@response.currency})"
+                  %th= "Activity/Other Costs Expenditure (Spent) Total (#{@response.currency})"
+                  %th= "Project Expenditure (Spent) Total (#{@response.currency})"
                   %th= "Diff (#{@response.currency})"
               %tbody
                 - @response.projects.each do |project|
