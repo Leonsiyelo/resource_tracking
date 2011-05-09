@@ -37,7 +37,7 @@ Feature: Reporter can derive classifications from sub implementers
 
     Scenario: Use spend classifications derived from sub implementers
       When I press "Save & Go to Classify >"
-        And I follow "Spend"
+        And I follow "Spent"
         And I follow "Locations"
         #And I follow "Use expenditure classifications derived from sub implementers"
         And I follow "Derive classification"

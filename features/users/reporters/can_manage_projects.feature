@@ -65,7 +65,7 @@ Feature: Reporter can manage projects
       And I fill in "Name" with "Some Project"
       And I fill in "Start date" with "<start_date>"
       And I fill in "End date" with "<end_date>"
-      And I fill in "Spend" with "<entire_budget>"
+      And I fill in "Spent" with "<entire_budget>"
       And I fill in "Budget" with "<budget_gor>"
       And I press "Create"
      Then I should see "<message>"
@@ -194,7 +194,7 @@ Feature: Reporter can manage projects
    
    When I follow "Create Project"
    Then I should not see "Past Project Expenditure"
-    And I should not see "Quarterly Spend"
+    And I should not see "Quarterly Spent"
     And I should see "Budget"
 
   Scenario: A Reporter can bulk link their projects to those from other organizations
