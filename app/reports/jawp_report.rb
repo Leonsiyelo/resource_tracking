@@ -270,10 +270,11 @@ class Reports::JawpReport
       row << "ID"
       row << "Currency"
    
-      # values below given through build_code_assignment_rows
       row << "Total #{amount_type}"
       row << "Converted #{amount_type} (USD)"
       row << "National?"
+
+      # values below given through build_code_assignment_rows
       row << "Possible Duplicate?"
       row << "Implementer"
       row << "Implementer Type"
