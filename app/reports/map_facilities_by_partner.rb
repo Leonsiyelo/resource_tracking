@@ -31,6 +31,7 @@ class Reports::MapFacilitiesByPartner
         # if have my own DR, pull lots of info from there
         # otherwise get who gives me money by activities
         if dr && !dr.empty?
+          puts dr.id
           in_flows = organization.in_flows.find(:all,
                                   :conditions => ["data_response_id = ?", dr.id],
                                   :include => :project)
@@ -63,7 +64,12 @@ class Reports::MapFacilitiesByPartner
       row << "FOSAID"
       row << "District"
       row << "Facility Name"
-      row << "Total Budget"
+      row << "Facility Type"
+      row << "Latitude"
+      row << "Longitude"
+      row << "Catchment Population"
+      row << "Total #{@is_budget ? 'Budget' : 'Spent'}"
+      row << "Total #{@is_budget ? 'Budget' : 'Spent'} Per Capita"
       row << "1st Development Partner by Amount"
       row << "Amount"
       row << "All DP's"
@@ -81,7 +87,17 @@ class Reports::MapFacilitiesByPartner
       row << organization.fosaid
       row << organization.locations.last.to_s
       row << organization.to_s.upcase
-      row << n2c(@districts_hash[organization].delete(:total)) #remove key
+      row << organization.facility_type
+      row << organization.latitude
+      row << organization.longitude
+      row << organization.catchment_population
+      tot = @districts_hash[organization].delete(:total)
+      row <<  tot #remove key
+      if organization.catchment_population && organization.catchment_population > 0
+        row << tot / organization.catchment_population
+      else
+        row << ""
+      end
 
       add_partners(row, organization)
 
