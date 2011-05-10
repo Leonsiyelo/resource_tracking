@@ -32,7 +32,8 @@ class Reports::MapDistrictsByPartner
       row = []
 
       row << "District"
-      row << "Total Budget"
+      row << "Total #{@is_budget ? 'Budget' : 'Spent'}"
+      row << "Total #{@is_budget ? 'Budget' : 'Spent'} Per Capita"
       row << "1st Development Partner by Amount"
       row << "Amount"
       row << "All DP's"
@@ -67,7 +68,9 @@ class Reports::MapDistrictsByPartner
       row = []
 
       row << location.to_s.upcase
-      row << n2c(@districts_hash[location].delete(:total)) #remove key
+      tot = @districts_hash[location].delete(:total)
+      row << tot
+      row << tot / location.district.population
 
       add_partners(row, location)
 

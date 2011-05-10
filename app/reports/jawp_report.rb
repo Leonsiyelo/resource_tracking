@@ -54,18 +54,18 @@ class Reports::JawpReport
     row << activity.project.try(:description)
     row << activity.name
     row << activity.description
-    row << amount_q1
-    row << amount_q2
-    row << amount_q3
-    row << amount_q4
+#    row << amount_q1
+#    row << amount_q2
+#    row << amount_q3
+#    row << amount_q4
     #row << # reimplement currency conversion here later (amount_q1 ? amount_q1 * activity.toUSD : '')
    # row << # reimplement currency conversion here later (amount_q2 ? amount_q2 * activity.toUSD : '')
    # row << # reimplement currency conversion here later (amount_q3 ? amount_q3 * activity.toUSD : '')
    # row << # reimplement currency conversion here later (amount_q4 ? amount_q4 * activity.toUSD : '')
-    row << amount_q1
-    row << amount_q2
-    row << amount_q3
-    row << amount_q4
+#    row << amount_q1
+#    row << amount_q2
+#    row << amount_q3
+#    row << amount_q4
     row << get_locations(activity)
     row << activity.sub_activities_count
     row << get_hc_sub_activity_count(activity)
@@ -203,17 +203,33 @@ class Reports::JawpReport
               if activity.class == OtherCost
                 prov = "Administration - #{activity.data_response.organization.raw_type}"
                 prov_type = "Admin"
+                provider = nil
               elsif activity.provider.nil?
                 prov = "Unspecified"
                 prov_type = "Unspecified"
+                provider = nil
               else
                 prov = activity.provider.name
                 prov_type = activity.provider.raw_type
+                provider = activity.provider
               end
 
               row << activity.possible_duplicate?
               row << prov
               row << prov_type
+              unless provider.nil? or !provider.service_provider?
+                row << provider.service_provider?
+                row <<    provider.latitude 
+                row <<    provider.longitude 
+                row <<    provider.facility_type 
+                row <<    provider.catchment_population 
+              else
+                row << "FALSE"
+                row <<  ""
+                row <<    ""
+                row <<    ""
+                row <<    "" 
+              end
               row << funding_source[:ufs].try(:name)
               row << funding_source[:ufs].try(:raw_type)
               row << funding_source[:fa].try(:name)
@@ -221,6 +237,11 @@ class Reports::JawpReport
               row << amount
               row << ratio
               row << amount_total_in_usd * ratio
+              unless provider.nil? or !provider.service_provider? or provider.catchment_population.nil? or provider.catchment_population < 0
+                row << amount_total_in_usd * ratio / provider.catchment_population
+              else #TODO add district pop calculation to make relative to the district
+                row << ""
+              end
               obj = codes_cache[ca.code_id].try(:hssp2_stratobj_val); obj = "Too Vague" if obj.nil? or obj.blank?
               prog = codes_cache[ca.code_id].try(:hssp2_stratprog_val); prog = "Too Vague" if prog.nil? or prog.blank?
               row << obj
@@ -252,14 +273,14 @@ class Reports::JawpReport
       row << "Project Description"
       row << "Activity Name"
       row << "Activity Description"
-      row << "Q1"
-      row << "Q2"
-      row << "Q3"
-      row << "Q4"
-      row << "Q1 (USD)"
-      row << "Q2 (USD)"
-      row << "Q3 (USD)"
-      row << "Q4 (USD)"
+#      row << "Q1"
+#      row << "Q2"
+#      row << "Q3"
+#      row << "Q4"
+#      row << "Q1 (USD)"
+#      row << "Q2 (USD)"
+#      row << "Q3 (USD)"
+#      row << "Q4 (USD)"
       row << "Districts"
       row << "# of sub-activities"
       row << "# of facilities implementing"
@@ -278,6 +299,11 @@ class Reports::JawpReport
       row << "Possible Duplicate?"
       row << "Implementer"
       row << "Implementer Type"
+      row << "Facility?"
+      row << "Latitude" 
+      row << "Longitude" 
+      row << "Facility Type" 
+      row << "Catchment Population" 
       row << 'Funding Source'
       row << 'Funding Source Type'
       row << 'Financing Agent'
@@ -285,6 +311,7 @@ class Reports::JawpReport
       row << "Classified #{amount_type}"
       row << "Classified #{amount_type} Percentage"
       row << "Converted Classified #{amount_type} (USD)"
+      row << "#{amount_type} (USD) Per Capita"
       row << "HSSPII Strat obj"
       row << "HSSPII Strat prog"
       Code.deepest_nesting.times{ row << "Code" }

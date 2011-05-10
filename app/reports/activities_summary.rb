@@ -44,6 +44,11 @@ class Reports::ActivitiesSummary
       row << "activity.end_date"
       row << "activity.provider"
       row << "activity.provider.FOSAID"
+      row << "Facility?"
+      row << "Latitude" 
+      row << "Longitude" 
+      row << "Facility Type" 
+      row << "Catchment Population" 
       row << "activity.text_for_beneficiaries"
       row << "activity.text_for_targets"
       row << "Is Sub Activity?"
@@ -73,6 +78,20 @@ class Reports::ActivitiesSummary
       row << "#{activity.end_date}"
       row << provider_name(activity)
       row << provider_fosaid(activity)
+      provider = activity.provider
+              unless provider.nil? or !provider.service_provider?
+                row << provider.service_provider?
+                row <<    provider.latitude 
+                row <<    provider.longitude 
+                row <<    provider.facility_type 
+                row <<    provider.catchment_population 
+              else
+                row << "FALSE"
+                row <<  ""
+                row <<    ""
+                row <<    ""
+                row <<    "" 
+              end
       row << "#{h activity.text_for_beneficiaries}"
       row << "#{h activity.text_for_targets}"
       row << is_activity(activity)
