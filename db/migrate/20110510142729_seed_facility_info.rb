@@ -1,6 +1,6 @@
 class SeedFacilityInfo < ActiveRecord::Migration
   def self.up
-    #load 'db/fixes/facility_details.rb' if ["production", "staging", "development"].include?(RAILS_ENV)
+    load 'db/fixes/facility_details.rb' if ["production", "staging", "development"].include?(RAILS_ENV)
   end
 
   def self.down
