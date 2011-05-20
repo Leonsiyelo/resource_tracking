@@ -1346,13 +1346,14 @@ var activity_form = function () {
   
   $('.implementer_select').live("keyup", function(e){
     var element = $(this);
-    element.autocomplete('/organizations.js?q=' + element.val(), {
-      formatItem: function(item) {
-        console.log(item);
-        console.log(item.value);
-        return item.value;
+    element.autocomplete({
+      source: '/organizations.json',
+      change: function(e, ui) {
+        console.log(e);
+        console.log(ui);
+        console.log(element.val());
       }
-    });
+    })
   });
 
 
