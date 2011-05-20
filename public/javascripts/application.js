@@ -1308,41 +1308,52 @@ var activity_form = function () {
     }
   });
 
-  $('.implementer_select').live('change', function(e) {
-    e.preventDefault();
-    var element = $(this);
-    if(element.val() == "-1"){
-      $('.implementer_container').hide();
-      $('.add_organization').show();
-    }
-  });
+  // $('.implementer_select').live('change', function(e) {
+  //   e.preventDefault();
+  //   var element = $(this);
+  //   if(element.val() == "-1"){
+  //     $('.implementer_container').hide();
+  //     $('.add_organization').show();
+  //   }
+  // });
+  // 
+  // $('.cancel_organization_link').live('click', function(e) {
+  //   e.preventDefault();
+  //   $('.organization_name').attr('value', '');
+  //   $('.add_organization').hide();
+  //   $('.implementer_container').show();
+  //   $('.implementer_select').val(null);
+  // });
+  // 
+  // $('.add_organization_link').live('click', function(e) {
+  //   e.preventDefault();
+  //   var name = $('.organization_name').val();
+  //   $.post("/organizations.js", { "name" : name }, function(data){
+  //     var data = $.parseJSON(data);
+  //     $('.implementer_container').show();
+  //     $('.add_organization').hide();
+  //     if(isNaN(data.organization.id)){
+  //       $('.implementer_select').val(null);
+  //     }else{
+  //       $('.implementer_select').prepend("<option value=\'"+ data.organization.id + "\'>" + data.organization.name + "</option>");
+  //       $('.implementer_select').val(data.organization.id);
+  //     }
+  //   });
+  //   $('.organization_name').attr('value', '');
+  //   $('.add_organization').slideToggle();
+  // });
   
-  $('.cancel_organization_link').live('click', function(e) {
-    e.preventDefault();
-    $('.organization_name').attr('value', '');
-    $('.add_organization').hide();
-    $('.implementer_container').show();
-    $('.implementer_select').val(null);
-  });
-
-  $('.add_organization_link').live('click', function(e) {
-    e.preventDefault();
-    var name = $('.organization_name').val();
-    $.post("/organizations.js", { "name" : name }, function(data){
-      var data = $.parseJSON(data);
-      $('.implementer_container').show();
-      $('.add_organization').hide();
-      if(isNaN(data.organization.id)){
-        $('.implementer_select').val(null);
-      }else{
-        $('.implementer_select').prepend("<option value=\'"+ data.organization.id + "\'>" + data.organization.name + "</option>");
-        $('.implementer_select').val(data.organization.id);
+  
+  $('.implementer_select').live("keyup", function(e){
+    var element = $(this);
+    element.autocomplete('/organizations.js?q=' + element.val(), {
+      formatItem: function(item) {
+        console.log(item);
+        console.log(item.value);
+        return item.value;
       }
     });
-    $('.organization_name').attr('value', '');
-    $('.add_organization').slideToggle();
   });
-
 
 
   $('.edit').live('click', function (e) {
