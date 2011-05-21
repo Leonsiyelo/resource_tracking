@@ -249,9 +249,5 @@ module ApplicationHelper
     orgs = Organization.find(:all, :order => 'old_type, name')
     orgs.map{|o| [o.display_name(100), o.id]}
   end
-  
-  def is_number?(i)
-    true if Float(i) rescue false
-  end
-  
+
 end

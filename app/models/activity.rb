@@ -140,11 +140,6 @@ class Activity < ActiveRecord::Base
       a.uniq
   end
 
-  #def description
-    #d = read_attribute(:description)
-    #d.present? ? d : 'No description'
-  #end
-
   def self.unclassified
     self.find(:all).select {|a| !a.classified?}
   end
@@ -196,12 +191,12 @@ class Activity < ActiveRecord::Base
   def self.find_or_initialize_from_file(response, doc, project_id)
     activities = []
 
-    doc.each do |row| 
+    doc.each do |row|
       activity_id = row['Id']
 
       if activity_id.present?
         # reset the activity id if it is already found in previous rows
-        # this can happen when user edits existing activities but copies 
+        # this can happen when user edits existing activities but copies
         # the whole row (then the activity id is also copied)
         if activities.map(&:id).include?(activity_id.to_i)
           activity = response.activities.new
@@ -297,7 +292,6 @@ class Activity < ActiveRecord::Base
     organization.name
   end
 
-
   def coding_budget_classified? #purposes
     !data_response.request.purposes? || budget.blank? || CodingTree.new(self, CodingBudget).valid?
   end
@@ -329,7 +323,7 @@ class Activity < ActiveRecord::Base
   def service_level_spend_classified?
     !data_response.request.service_levels? || spend.blank? || CodingTree.new(self, ServiceLevelSpend).valid?
   end
-  
+
   def budget_classified?
     return true if self.budget.blank?
     coding_budget_classified? &&
@@ -565,7 +559,7 @@ class Activity < ActiveRecord::Base
       return self.send(field) if self.provider == provider
     else
       sum = 0
-      sub_activities.select{|a| a.provider == provider}.each do |a| 
+      sub_activities.select{|a| a.provider == provider}.each do |a|
         if a.nil?
           puts "had nil in subactivities in proj #{project.id}"
         else
@@ -578,8 +572,15 @@ class Activity < ActiveRecord::Base
     0
   end
 
-  private
+  # accept either a provider id, or autocreate it with the given name
+  def update_attributes(attributes)
+    if attributes[:provider_id]
+      attributes[:provider_id] = provider_by_id_or_name(attributes[:provider_id]).id
+    end
+    super(attributes)
+  end
 
+  private
 
     def delete_existing_code_assignments_by_type(coding_type)
       CodeAssignment.delete_all(["activity_id = ? AND type = ?", self.id, coding_type])
@@ -682,11 +683,22 @@ class Activity < ActiveRecord::Base
       end
     end
 
+
     def fake_ca(klass, code, amount, percentage = nil)
       klass.new(:activity => self, :code => code,
                 :amount => amount, :percentage => percentage,
                 :cached_amount => amount)
     end
+
+    def provider_by_id_or_name(id_or_name)
+      begin
+        provider = Organization.find(id_or_name)
+      rescue ActiveRecord::RecordNotFound
+        provider = Organization.find_or_create_by_name(id_or_name)
+      end
+      provider
+    end
+
 end
 
 

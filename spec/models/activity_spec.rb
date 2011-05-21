@@ -90,46 +90,46 @@ describe Activity do
       #a.should_not be_valid
     #end
   end
-  
+
   describe "codings required is decided by data_request" do
     it "will return true if the data_request doesn't require service levels and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :service_levels => false)))
       @activity.service_level_budget_classified?.should be_true
     end
     it "will return true if the data_request doesn't require inputs and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :inputs => false)))
       @activity.coding_budget_cc_classified?.should be_true
     end
     it "will return true if the data_request doesn't require locations and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :locations => false)))
       @activity.coding_budget_district_classified?.should be_true
     end
     it "will return true if the data_request doesn't require purposes and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :purposes => false)))
       @activity.coding_budget_classified?.should be_true
     end
-    
+
     it "will return true if the data_request doesn't require service levels and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :service_levels => false)))
       @activity.service_level_spend_classified?.should be_true
     end
     it "will return true if the data_request doesn't require inputs and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :inputs => false)))
       @activity.coding_spend_cc_classified?.should be_true
     end
     it "will return true if the data_request doesn't require locations and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :locations => false)))
       @activity.coding_spend_district_classified?.should be_true
     end
     it "will return true if the data_request doesn't require purposes and none are entered" do
-      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response, 
+      @activity = Factory.create(:activity, :data_response => Factory.create(:data_response,
                                  :data_request => Factory.create(:data_request, :purposes => false)))
       @activity.coding_spend_classified?.should be_true
     end
@@ -195,6 +195,30 @@ describe Activity do
       data_response = Factory.create(:data_response, :organization => Factory.create(:organization, :name => "Organization1"))
       activity = Factory.create(:activity, :data_response => data_response)
       activity.organization_name.should == "Organization1"
+    end
+  end
+
+  describe "#update_attributes" do
+    it "should accept nested provider as either id or a name" do
+      pending
+      org       = Factory(:organization)
+      activity  = Factory(:activity)
+      params = {}
+      params[:provider_id] = org.id
+      activity.update_attributes(params).should == true
+      activity.provider.reload
+      activity.provider.should == org
+      #TODO: fix - update_attributes() is just not working with Rspec
+    end
+    it "should create a new provider org if provider name was given" do
+      pending
+      activity  = Factory(:activity)
+      params = {}
+      params[:provider_id] = "Some new org i want to create"
+      activity.update_attributes(params).should == true
+      activity.provider.reload
+      activity.provider.name.shoud == "Some new org i want to create"
+      #TODO: fix - update_attributes() is just not working with Rspec
     end
   end
 
@@ -596,7 +620,7 @@ describe Activity do
       @activity.classified?.should be_false
     end
   end
-  
+
   describe "budget_district_coding_adjusted" do
     before :each do
       @activity = Factory.create(:activity, :name => 'Activity 1', :budget => 100)

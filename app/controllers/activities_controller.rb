@@ -47,8 +47,6 @@ class ActivitiesController < Reporter::BaseController
 
   def update
     clean_out_sa_params(params)
-    check_for_new_provider(params)
-    debugger
     @activity = Activity.find(params[:id])
     if @activity.update_attributes(params[:activity])
       respond_to do |format|
@@ -157,17 +155,6 @@ class ActivitiesController < Reporter::BaseController
               params[:activity][:sub_activities_attributes][key][:budget] = budget
             end
           end
-        end
-      end
-    end
-
-    def check_for_new_provider(params)
-      unless params[:activity][:provider_id].nil?
-        unless is_number?(params[:activity][:provider_id])
-          name = params[:activity][:provider_id]
-          params[:activity][:provider] = {}
-          params[:activity][:provider][:name] = name
-          params[:activity].delete(:provider_id)
         end
       end
     end

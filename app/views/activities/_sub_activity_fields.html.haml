@@ -3,7 +3,7 @@
     = f.input :data_response_id, :as => :hidden, :value => @response.id, :required => false
     .implementer_container
       .ui_widget
-        = f.input :provider, :label => "Implementer", :as => :select, :collection => funding_organizations_select, :hint => "The name of the organization that implemented this Sub-Activity", :required => false, :input_html => {:class => 'implementer_select combobox'}
+        = f.input :provider, :label => "Implementer", :as => :select, :collection => funding_organizations_select, :hint => "The name of the organization that implemented this activity", :required => false, :input_html => {:class => 'implementer_select combobox'}
 
     - if @response.data_request.budget?
       %h4 Planned expenditure
@@ -15,3 +15,5 @@
         = f.input :budget, :required => false, :hint => "Amount OR Percentage allocated to this Sub-Activity from the main Activity's Budget.", :label => "Sub-Activity Budget"
 
     = link_to_remove_fields "remove", f
+
+
