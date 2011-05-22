@@ -20,9 +20,9 @@
             %li= link_to 'Budget', edit_response_implementer_path(@response, :budget), :class => (params[:id] == 'budget'  ? 'active' : nil)
       %tr.head
         %th.name.fixed Activity
-        %th.name Implementer
+        %th Implementer
         %th
-        %th.wrap-3
+        %th
     %tbody
       - @projects.each do |project|
         - project.activities.ordered.each do |activity|
@@ -32,7 +32,7 @@
         %td{:colspan => 2}
         %td.total Total
         %td.total_amount
-          %span.js_projects_total_amount= 9999 #@projects.map{|p| p.funders_total_by_type(params[:id])}.sum
+          %span.js_projects_total_amount= @projects.map{ |p| p.sub_activities_total_by_type(params[:id])}.sum
           %span.currency= @response.currency
       %tr
         %td.borderless{:colspan => 8}

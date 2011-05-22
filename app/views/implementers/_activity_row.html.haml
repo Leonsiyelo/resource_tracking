@@ -13,5 +13,5 @@
       Add implementer
   %td.total Subtotal
   %td.total_amount
-    %span.js_project_total= 999 #project.funders_total_by_type(params[:id])
+    %span.js_project_total= activity.sub_activities_total_by_type(params[:id])
     %span.currency= project.currency
